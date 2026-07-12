@@ -1,0 +1,52 @@
+[
+  {
+    "id": "p_lion",
+    "title": "Le Syndrome du Sauveur",
+    "price": "45000",
+    "status": "available",
+    "dimensions": "30 x 30 cm",
+    "technique": "Huile sur toile",
+    "description": "Le besoin de sauver les autres pour se sentir exister, quitte à s'oublier soi-même. Le lion protège, le masque encaisse.",
+    "image": "/p_lion.jpg"
+  },
+  {
+    "id": "p_loup",
+    "title": "Le Syndrome du Personnage Principal",
+    "price": "30000",
+    "status": "available",
+    "dimensions": "50 x 20 cm",
+    "technique": "Huile sur toile",
+    "description": "Se croire au centre de l'histoire de tout le monde. Le loup observe, les masques — humain et démon — rappellent qu'on n'est parfois que spectateur.",
+    "image": "/p_loup.jpg"
+  },
+  {
+    "id": "p_masque_bleu",
+    "title": "Le Syndrome de l'Imposteur",
+    "price": "40000",
+    "status": "available",
+    "dimensions": "40 x 40 cm",
+    "technique": "Huile sur toile",
+    "description": "Le visage qui doute même quand tout va bien. Les cercles dans l'eau, comme des vérités qu'on repousse à chaque fois qu'elles remontent.",
+    "image": "/p_masque_bleu.jpg"
+  },
+  {
+    "id": "p_peaky",
+    "title": "Portrait — Peaky Blinders",
+    "price": "10000",
+    "status": "available",
+    "dimensions": "18 x 24 cm",
+    "technique": "Huile sur toile",
+    "description": "",
+    "image": "/p_peaky.jpg"
+  },
+  {
+    "id": "p_malcolm",
+    "title": "Portrait — Malcolm X",
+    "price": "10000",
+    "status": "available",
+    "dimensions": "20 x 20 cm",
+    "technique": "Huile sur toile",
+    "description": "",
+    "image": "/p_malcolm.jpg"
+  }
+]
