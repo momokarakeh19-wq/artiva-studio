@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Artiva Studio — Galerie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-void:#0f111a;
+    --bg-deep:#1b2140;
+    --ocre:#c17a42;
+    --ocre-soft:#e0a874;
+    --gold:#d4af6a;
+    --cream:#efe9dd;
+    --muted:#948d80;
+    --line: rgba(239,233,221,0.12);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: radial-gradient(ellipse 120% 80% at 50% -10%, var(--bg-deep) 0%, var(--bg-void) 55%);
+    color:var(--cream);
+    font-family:'Work Sans', sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,.serif{font-family:'Fraunces', serif;}
+  a{color:inherit;}
+  ::selection{background:var(--ocre); color:var(--bg-void);}
+  button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, a:focus-visible{
+    outline: 2px solid var(--gold); outline-offset: 3px;
+  }
+  header{ display:flex; justify-content:space-between; align-items:center; padding: 28px 6vw 20px; position:relative; z-index:10; }
+  .logo{ font-family:'Fraunces', serif; font-weight:600; font-size: clamp(20px, 2.4vw, 28px); letter-spacing:0.02em; }
+  .logo span{color:var(--ocre-soft); font-style:italic; font-weight:300;}
+  nav a{ font-size:13px; text-transform:uppercase; letter-spacing:0.12em; color:var(--muted); text-decoration:none; margin-left:28px; transition:color .25s; }
+  nav a:hover{color:var(--cream);}
+  .hero{ position:relative; padding: 6vh 6vw 10vh; display:flex; flex-direction:column; align-items:center; text-align:center; overflow:hidden; }
+  .hero::before{ content:""; position:absolute; top:-20%; left:50%; transform:translateX(-50%); width:900px; height:900px; background: radial-gradient(circle, rgba(193,122,66,0.18) 0%, rgba(193,122,66,0) 70%); pointer-events:none; }
+  .hero-eyebrow{ font-size:12px; letter-spacing:0.3em; text-transform:uppercase; color:var(--gold); margin-bottom:22px; opacity:0.9; position:relative; z-index:2; }
+  .hero h1{ font-size: clamp(38px, 7vw, 84px); font-weight:600; line-height:1.02; letter-spacing:-0.01em; max-width:16ch; position:relative; z-index:2; }
+  .hero h1 em{ font-style:italic; font-weight:300; color:var(--ocre-soft); }
+  .hero p{ margin-top:26px; max-width:52ch; color:var(--muted); font-size:16.5px; line-height:1.65; position:relative; z-index:2; }
+  .hero-cta{ margin-top:40px; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; position:relative; z-index:2; }
+  .btn{ padding:14px 30px; border-radius:2px; font-size:14px; letter-spacing:0.05em; text-transform:uppercase; text-decoration:none; cursor:pointer; border:1px solid transparent; transition: all .25s ease; font-family:'Work Sans', sans-serif; font-weight:500; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary{background:var(--ocre); color:var(--bg-void);}
+  .btn-primary:hover{background:var(--ocre-soft);}
+  .btn-ghost{border-color:var(--line); color:var(--cream); background:transparent;}
+  .btn-ghost:hover{border-color:var(--gold); color:var(--gold);}
+  .section-head{ display:flex; justify-content:space-between; align-items:flex-end; padding: 0 6vw; margin: 10vh 0 40px; gap:20px; flex-wrap:wrap; }
+  .section-head .eyebrow{ font-size:12px; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; display:block; }
+  .section-head h2{font-size: clamp(26px, 3.2vw, 40px); font-weight:600;}
+  .section-head p{color:var(--muted); font-size:14.5px; max-width:40ch;}
+  .gallery{ display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; padding: 0 6vw 10vh; }
+  .card{ position:relative; background:var(--bg-deep); border:1px solid var(--line); overflow:hidden; border-radius:2px; }
+  .card-image-wrap{ position:relative; aspect-ratio: 4/5; overflow:hidden; background:#0c0e16; }
+  .card-image-wrap img{ width:100%; height:100%; object-fit:cover; filter: saturate(0.92) contrast(1.02); transition: transform 1.1s cubic-bezier(.16,1,.3,1); }
+  .card:hover .card-image-wrap img{transform:scale(1.06);}
+  .mask-veil{ position:absolute; inset:0; background: var(--bg-void); clip-path: polygon(0 0, 28% 0, 0 28%); transition: clip-path .8s cubic-bezier(.65,0,.35,1); display:flex; align-items:flex-start; justify-content:flex-start; pointer-events:none; }
+  .mask-veil svg{width:38px; margin:14px; opacity:0.55;}
+  .card:hover .mask-veil, .card.revealed .mask-veil{ clip-path: polygon(0 0, 0 0, 0 0); }
+  .status-chip{ position:absolute; top:14px; left:14px; z-index:3; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; padding:6px 12px; border-radius:1px; background:rgba(15,17,26,0.75); backdrop-filter: blur(4px); border:1px solid var(--line); }
+  .status-chip.sold{color:var(--muted);}
+  .status-chip.available{color:var(--gold); border-color:rgba(212,175,106,0.4);}
+  .card-body{padding:22px 22px 24px;}
+  .card-body h3{font-size:19px; font-weight:500; margin-bottom:6px;}
+  .card-meta{ font-size:12.5px; color:var(--muted); letter-spacing:0.02em; display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px; }
+  .card-meta span:not(:last-child)::after{content:"·"; margin-left:10px; color:var(--line);}
+  .card-price{font-family:'Fraunces', serif; font-size:20px; color:var(--ocre-soft); margin-bottom:16px;}
+  .card-desc{font-size:13px; color:var(--muted); line-height:1.55; margin-bottom:16px;}
+  .card-actions{display:flex; gap:10px;}
+  .wa-btn{ flex:1; text-align:center; padding:11px; font-size:13px; text-transform:uppercase; letter-spacing:0.06em; text-decoration:none; border:1px solid var(--line); color:var(--cream); transition:.25s; border-radius:1px; }
+  .wa-btn:hover{border-color:var(--gold); color:var(--gold);}
+  .wa-btn.disabled{opacity:0.35; pointer-events:none;}
+  .empty-state{ grid-column: 1/-1; text-align:center; padding:8vh 20px; color:var(--muted); }
+  .empty-state svg{width:60px; opacity:0.4; margin-bottom:18px;}
+  .empty-state p{font-size:14.5px; max-width:36ch; margin:0 auto;}
+  footer{ border-top:1px solid var(--line); padding: 40px 6vw 34px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  footer .fl{font-size:13px; color:var(--muted);}
+  footer .fl a{color:var(--muted); text-decoration:none; margin-left:18px; transition:.2s;}
+  footer .fl a:hover{color:var(--gold);}
+  .admin-trigger{ background:none; border:none; color:var(--line); font-size:11px; cursor:pointer; letter-spacing:0.1em; text-transform:uppercase; }
+  .admin-trigger:hover{color:var(--muted);}
+  .modal-backdrop{ position:fixed; inset:0; background:rgba(10,11,17,0.82); backdrop-filter: blur(6px); display:flex; align-items:center; justify-content:center; z-index:100; padding:20px; opacity:0; pointer-events:none; transition:opacity .3s; }
+  .modal-backdrop.open{opacity:1; pointer-events:auto;}
+  .modal{ background:var(--bg-deep); border:1px solid var(--line); max-width:480px; width:100%; padding:36px; max-height:88vh; overflow-y:auto; border-radius:2px; transform:translateY(14px); transition:transform .35s cubic-bezier(.16,1,.3,1); position:relative; }
+  .modal-backdrop.open .modal{transform:translateY(0);}
+  .modal h3{font-size:22px; margin-bottom:6px;}
+  .modal .sub{font-size:13px; color:var(--muted); margin-bottom:26px;}
+  .field{margin-bottom:16px;}
+  .field label{ display:block; font-size:11.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--muted); margin-bottom:7px; }
+  .field input, .field select, .field textarea{ width:100%; background:var(--bg-void); border:1px solid var(--line); color:var(--cream); padding:11px 13px; font-size:14.5px; font-family:'Work Sans', sans-serif; border-radius:1px; }
+  .field textarea{resize:vertical; min-height:70px;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+  .modal-actions{display:flex; gap:10px; margin-top:26px;}
+  .modal-actions .btn{flex:1; justify-content:center;}
+  .file-drop{ border:1px dashed var(--line); padding:20px; text-align:center; font-size:13px; color:var(--muted); cursor:pointer; border-radius:1px; position:relative; }
+  .file-drop input{position:absolute; inset:0; opacity:0; cursor:pointer;}
+  .file-preview{width:100%; aspect-ratio:4/5; object-fit:cover; margin-top:10px; border-radius:1px;}
+  .close-x{ position:absolute; top:20px; right:20px; background:none; border:none; color:var(--muted); font-size:22px; cursor:pointer; line-height:1; }
+  .close-x:hover{color:var(--cream);}
+  .error-msg{color:#d98c6c; font-size:12.5px; margin-top:8px; display:none;}
+  .admin-list{margin-top:8px;}
+  .admin-row{ display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px solid var(--line); }
+  .admin-row img{width:44px; height:52px; object-fit:cover; border-radius:1px;}
+  .admin-row .info{flex:1; min-width:0;}
+  .admin-row .info b{font-size:13.5px; display:block;}
+  .admin-row .info span{font-size:11.5px; color:var(--muted);}
+  .admin-row .row-actions{display:flex; gap:6px;}
+  .icon-btn{ background:none; border:1px solid var(--line); color:var(--muted); width:30px; height:30px; cursor:pointer; font-size:13px; border-radius:1px; }
+  .icon-btn:hover{color:var(--cream); border-color:var(--cream);}
+  @media (prefers-reduced-motion: reduce){ *{transition-duration:0.01ms !important; animation-duration:0.01ms !important;} }
+  @media (max-width:640px){ nav{display:none;} .field-row{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ARTIVA <span>studio</span></div>
+  <nav>
+    <a href="#galerie">Galerie</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Peintures à l'huile — pièces uniques — Dakar</div>
+  <h1>Des visages qui portent <em>deux histoires</em> à la fois</h1>
+  <p>Chaque toile ici est une pièce unique, peinte à la main. Une fois vendue, elle disparaît — il n'y en aura jamais deux pareilles.</p>
+  <div class="hero-cta">
+    <a href="#galerie" class="btn btn-primary">Voir la galerie</a>
+    <a href="#contact" class="btn btn-ghost">Me contacter</a>
+  </div>
+</section>
+
+<div class="section-head" id="galerie">
+  <div>
+    <span class="eyebrow">Collection</span>
+    <h2>La galerie</h2>
+  </div>
+  <p>Survolez une toile pour la révéler.</p>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<footer id="contact">
+  <div class="fl">© <span id="year"></span> Artiva Studio — Dakar, Sénégal
+    <a href="#" id="waFooterLink" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+  </div>
+  <button class="admin-trigger" id="adminTrigger">Espace artiste</button>
+</footer>
+
+<div class="modal-backdrop" id="loginBackdrop">
+  <div class="modal">
+    <button class="close-x" data-close="loginBackdrop">&times;</button>
+    <h3 class="serif">Espace artiste</h3>
+    <p class="sub">Accès réservé — entre ton code pour gérer la galerie.</p>
+    <div class="field">
+      <label for="pwInput">Code d'accès</label>
+      <input type="password" id="pwInput" placeholder="••••••">
+    </div>
+    <p class="error-msg" id="loginError">Code incorrect.</p>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="loginSubmit" style="width:100%;">Entrer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="adminBackdrop">
+  <div class="modal" style="max-width:560px;">
+    <button class="close-x" data-close="adminBackdrop">&times;</button>
+    <h3 class="serif">Gérer la galerie</h3>
+    <p class="sub">Ajoute une nouvelle toile ou modifie celles en ligne.</p>
+    <button class="btn btn-primary" id="openAddForm" style="margin-bottom:22px;">+ Ajouter une toile</button>
+    <div class="admin-list" id="adminList"></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="formBackdrop">
+  <div class="modal">
+    <button class="close-x" data-close="formBackdrop">&times;</button>
+    <h3 class="serif" id="formTitle">Ajouter une toile</h3>
+    <p class="sub">Elle apparaît dans la galerie dès l'enregistrement.</p>
+    <div class="field">
+      <label>Photo</label>
+      <div class="file-drop" id="fileDrop">
+        <span id="fileDropText">Clique ou dépose une image</span>
+        <input type="file" id="fileInput" accept="image/*">
+      </div>
+      <img id="filePreview" class="file-preview" style="display:none;">
+    </div>
+    <div class="field">
+      <label for="pTitle">Titre</label>
+      <input type="text" id="pTitle" placeholder="Ex. Le Lion et le Masque">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="pPrice">Prix (FCFA)</label>
+        <input type="number" id="pPrice" placeholder="150000">
+      </div>
+      <div class="field">
+        <label for="pStatus">Statut</label>
+        <select id="pStatus">
+          <option value="available">Disponible</option>
+          <option value="sold">Vendu</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="pDim">Dimensions</label>
+        <input type="text" id="pDim" placeholder="40 x 50 cm">
+      </div>
+      <div class="field">
+        <label for="pTech">Technique</label>
+        <input type="text" id="pTech" placeholder="Huile sur toile">
+      </div>
+    </div>
+    <div class="field">
+      <label for="pDesc">Description (optionnel)</label>
+      <textarea id="pDesc" placeholder="Quelques mots sur la pièce..."></textarea>
+    </div>
+    <p class="error-msg" id="formError">Merci de remplir le titre, le prix et d'ajouter une photo.</p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" id="cancelForm">Annuler</button>
+      <button class="btn btn-primary" id="saveForm">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WHATSAPP_NUMBER = "221781273086";
+
+document.getElementById('year').textContent = new Date().getFullYear();
+document.getElementById('waFooterLink').href = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+let paintings = [];
+let editingId = null;
+let pendingImageData = null;
+
+const maskSvg = `<svg viewBox="0 0 100 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M50 5C30 5 18 22 18 45C18 65 25 78 25 90C25 100 30 112 50 115C70 112 75 100 75 90C75 78 82 65 82 45C82 22 70 5 50 5Z" stroke="#d4af6a" stroke-width="1.4"/>
+  <ellipse cx="36" cy="48" rx="7" ry="10" fill="#d4af6a" opacity="0.6"/>
+  <ellipse cx="64" cy="48" rx="7" ry="10" fill="#d4af6a" opacity="0.6"/>
+  <path d="M50 60V95" stroke="#d4af6a" stroke-width="1.2" opacity="0.6"/>
+</svg>`;
+
+function adminHeaders(){
+  return { 'Content-Type': 'application/json', 'x-admin-password': sessionStorage.getItem('artiva-pw') || '' };
+}
+
+async function loadPaintings(){
+  try{
+    const res = await fetch('/api/paintings');
+    paintings = await res.json();
+  }catch(e){
+    paintings = [];
+  }
+  renderGallery();
+}
+
+function formatPrice(n){ return Number(n).toLocaleString('fr-FR') + ' FCFA'; }
+
+function renderGallery(){
+  const g = document.getElementById('gallery');
+  if(paintings.length === 0){
+    g.innerHTML = `<div class="empty-state">${maskSvg}<p>La galerie est vide pour l'instant. Reviens bientôt pour découvrir les prochaines pièces.</p></div>`;
+    return;
+  }
+  g.innerHTML = paintings.map(p => {
+    const waMsg = encodeURIComponent(`Bonjour ! Je suis intéressé(e) par la toile "${p.title}" (${formatPrice(p.price)}).`);
+    const isSold = p.status === 'sold';
+    return `
+    <div class="card">
+      <div class="card-image-wrap">
+        <span class="status-chip ${isSold ? 'sold' : 'available'}">${isSold ? 'Vendu' : 'Disponible'}</span>
+        <img src="${p.image}" alt="${p.title}">
+        <div class="mask-veil">${maskSvg}</div>
+      </div>
+      <div class="card-body">
+        <h3>${p.title}</h3>
+        <div class="card-meta">
+          ${p.dimensions ? `<span>${p.dimensions}</span>` : ''}
+          ${p.technique ? `<span>${p.technique}</span>` : ''}
+        </div>
+        <div class="card-price">${formatPrice(p.price)}</div>
+        ${p.description ? `<div class="card-desc">${p.description}</div>` : ''}
+        <div class="card-actions">
+          <a class="wa-btn ${isSold ? 'disabled' : ''}" href="https://wa.me/${WHATSAPP_NUMBER}?text=${waMsg}" target="_blank" rel="noopener">
+            ${isSold ? 'Déjà vendu' : 'Contacter sur WhatsApp'}
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderAdminList(){
+  const list = document.getElementById('adminList');
+  if(paintings.length === 0){
+    list.innerHTML = `<p style="color:var(--muted); font-size:13.5px;">Aucune toile pour l'instant.</p>`;
+    return;
+  }
+  list.innerHTML = paintings.map(p => `
+    <div class="admin-row">
+      <img src="${p.image}" alt="">
+      <div class="info">
+        <b>${p.title}</b>
+        <span>${formatPrice(p.price)} · ${p.status === 'sold' ? 'Vendu' : 'Disponible'}</span>
+      </div>
+      <div class="row-actions">
+        <button class="icon-btn" onclick="toggleSold('${p.id}')" title="Marquer vendu/disponible">↺</button>
+        <button class="icon-btn" onclick="editPainting('${p.id}')" title="Modifier">✎</button>
+        <button class="icon-btn" onclick="deletePainting('${p.id}')" title="Supprimer">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function toggleSold(id){
+  const p = paintings.find(x => x.id === id);
+  if(!p) return;
+  const newStatus = p.status === 'sold' ? 'available' : 'sold';
+  await fetch(`/api/paintings/${id}`, { method:'PUT', headers: adminHeaders(), body: JSON.stringify({ status: newStatus }) });
+  await loadPaintings(); renderAdminList();
+}
+
+async function deletePainting(id){
+  if(!confirm('Supprimer définitivement cette toile ?')) return;
+  await fetch(`/api/paintings/${id}`, { method:'DELETE', headers: adminHeaders() });
+  await loadPaintings(); renderAdminList();
+}
+
+function editPainting(id){
+  const p = paintings.find(x => x.id === id);
+  if(!p) return;
+  editingId = id;
+  document.getElementById('formTitle').textContent = 'Modifier la toile';
+  document.getElementById('pTitle').value = p.title;
+  document.getElementById('pPrice').value = p.price;
+  document.getElementById('pStatus').value = p.status;
+  document.getElementById('pDim').value = p.dimensions || '';
+  document.getElementById('pTech').value = p.technique || '';
+  document.getElementById('pDesc').value = p.description || '';
+  pendingImageData = null;
+  document.getElementById('filePreview').src = p.image;
+  document.getElementById('filePreview').style.display = 'block';
+  document.getElementById('fileDropText').textContent = 'Changer l\'image (optionnel)';
+  openModal('formBackdrop');
+}
+
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('[data-close]').forEach(btn => btn.addEventListener('click', () => closeModal(btn.dataset.close)));
+document.querySelectorAll('.modal-backdrop').forEach(bd => bd.addEventListener('click', (e) => { if(e.target === bd) closeModal(bd.id); }));
+
+document.getElementById('adminTrigger').addEventListener('click', () => {
+  if(sessionStorage.getItem('artiva-admin') === 'true'){
+    renderAdminList();
+    openModal('adminBackdrop');
+  } else {
+    openModal('loginBackdrop');
+  }
+});
+
+document.getElementById('loginSubmit').addEventListener('click', doLogin);
+document.getElementById('pwInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') doLogin(); });
+
+async function doLogin(){
+  const val = document.getElementById('pwInput').value;
+  try{
+    const res = await fetch('/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ password: val }) });
+    if(res.ok){
+      sessionStorage.setItem('artiva-admin', 'true');
+      sessionStorage.setItem('artiva-pw', val);
+      document.getElementById('pwInput').value = '';
+      document.getElementById('loginError').style.display = 'none';
+      closeModal('loginBackdrop');
+      renderAdminList();
+      openModal('adminBackdrop');
+    } else {
+      document.getElementById('loginError').style.display = 'block';
+    }
+  }catch(e){
+    document.getElementById('loginError').style.display = 'block';
+  }
+}
+
+document.getElementById('openAddForm').addEventListener('click', () => {
+  editingId = null;
+  pendingImageData = null;
+  document.getElementById('formTitle').textContent = 'Ajouter une toile';
+  document.getElementById('pTitle').value = '';
+  document.getElementById('pPrice').value = '';
+  document.getElementById('pStatus').value = 'available';
+  document.getElementById('pDim').value = '';
+  document.getElementById('pTech').value = '';
+  document.getElementById('pDesc').value = '';
+  document.getElementById('filePreview').style.display = 'none';
+  document.getElementById('fileDropText').textContent = 'Clique ou dépose une image';
+  document.getElementById('formError').style.display = 'none';
+  closeModal('adminBackdrop');
+  openModal('formBackdrop');
+});
+
+document.getElementById('cancelForm').addEventListener('click', () => {
+  closeModal('formBackdrop');
+  openModal('adminBackdrop');
+});
+
+document.getElementById('fileInput').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    const img = new Image();
+    img.onload = () => {
+      const maxW = 900;
+      const scale = Math.min(1, maxW / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      pendingImageData = canvas.toDataURL('image/jpeg', 0.82);
+      document.getElementById('filePreview').src = pendingImageData;
+      document.getElementById('filePreview').style.display = 'block';
+      document.getElementById('fileDropText').textContent = 'Image sélectionnée ✓';
+    };
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
+});
+
+document.getElementById('saveForm').addEventListener('click', async () => {
+  const title = document.getElementById('pTitle').value.trim();
+  const price = document.getElementById('pPrice').value;
+  const status = document.getElementById('pStatus').value;
+  const dimensions = document.getElementById('pDim').value.trim();
+  const technique = document.getElementById('pTech').value.trim();
+  const description = document.getElementById('pDesc').value.trim();
+
+  if(!title || !price || (!editingId && !pendingImageData)){
+    document.getElementById('formError').style.display = 'block';
+    return;
+  }
+  document.getElementById('formError').style.display = 'none';
+
+  const payload = { title, price, status, dimensions, technique, description };
+  if(pendingImageData) payload.image = pendingImageData;
+
+  if(editingId){
+    await fetch(`/api/paintings/${editingId}`, { method:'PUT', headers: adminHeaders(), body: JSON.stringify(payload) });
+  } else {
+    await fetch('/api/paintings', { method:'POST', headers: adminHeaders(), body: JSON.stringify(payload) });
+  }
+
+  await loadPaintings();
+  closeModal('formBackdrop');
+  renderAdminList();
+  openModal('adminBackdrop');
+});
+
+document.getElementById('gallery').addEventListener('click', (e) => {
+  const card = e.target.closest('.card');
+  if(!card) return;
+  if(e.target.closest('.wa-btn')) return;
+  card.classList.toggle('revealed');
+});
+
+loadPaintings();
+</script>
+
+</body>
+</html>
