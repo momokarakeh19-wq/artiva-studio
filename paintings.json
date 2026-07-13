@@ -1,5 +1,15 @@
 [
   {
+    "id": "p_1783932832963",
+    "title": "Syndrome du cotard",
+    "price": "40000",
+    "status": "available",
+    "dimensions": "",
+    "technique": "",
+    "description": "Syndrome du cadavre ambulant",
+    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783932832963.jpg?t=1783932834382"
+  },
+  {
     "id": "p_1783932756122",
     "title": "Syndrome de l’imposteur",
     "price": "25000",
