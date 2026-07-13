@@ -1,5 +1,15 @@
 [
   {
+    "id": "p_1783932970218",
+    "title": "Positive mind",
+    "price": "10000",
+    "status": "available",
+    "dimensions": "50*50",
+    "technique": "Peinture à eau",
+    "description": "L’art de s’en foutre",
+    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783932970218.jpg?t=1783932979211"
+  },
+  {
     "id": "p_1783932832963",
     "title": "Syndrome du cotard",
     "price": "40000",
