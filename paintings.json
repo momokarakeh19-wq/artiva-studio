@@ -20,16 +20,6 @@
     "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783932342927.jpg?t=1783932344617"
   },
   {
-    "id": "p_masque_bleu",
-    "title": "Le Syndrome de l'Imposteur",
-    "price": "40000",
-    "status": "available",
-    "dimensions": "40 x 40 cm",
-    "technique": "Huile sur toile",
-    "description": "Le visage qui doute même quand tout va bien. Les cercles dans l'eau, comme des vérités qu'on repousse à chaque fois qu'elles remontent.",
-    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_masque_bleu.jpg"
-  },
-  {
     "id": "p_peaky",
     "title": "Portrait — Peaky Blinders",
     "price": "10000",
