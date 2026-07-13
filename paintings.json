@@ -1,5 +1,15 @@
 [
   {
+    "id": "p_1783933058590",
+    "title": "Jughead",
+    "price": "20000",
+    "status": "available",
+    "dimensions": "50*50",
+    "technique": "",
+    "description": "",
+    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783933058590.jpg?t=1783933062473"
+  },
+  {
     "id": "p_1783933042685",
     "title": "Jughead",
     "price": "20000",
