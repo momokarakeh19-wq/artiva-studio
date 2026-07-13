@@ -1,15 +1,5 @@
 [
   {
-    "id": "p_lion",
-    "title": "Le Syndrome du Sauveur",
-    "price": "45000",
-    "status": "available",
-    "dimensions": "30 x 30 cm",
-    "technique": "Huile sur toile",
-    "description": "Le besoin de sauver les autres pour se sentir exister, quitte à s'oublier soi-même. Le lion protège, le masque encaisse.",
-    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_lion.jpg?t=1783932284294"
-  },
-  {
     "id": "p_loup",
     "title": "Le Syndrome du Personnage Principal",
     "price": "30000",
