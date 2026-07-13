@@ -1,5 +1,15 @@
 [
   {
+    "id": "p_1783932581145",
+    "title": "Syndrome du personnage principal",
+    "price": "30000",
+    "status": "available",
+    "dimensions": "15*40",
+    "technique": "",
+    "description": "Se croire au centre de l'histoire de tout le monde. Le loup observe, les masques — humain et démon — rappellent qu'on n'est parfois que spectateur.",
+    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783932581145.jpg?t=1783932586025"
+  },
+  {
     "id": "p_1783932342927",
     "title": "Syndrome du sauveur",
     "price": "45000",
