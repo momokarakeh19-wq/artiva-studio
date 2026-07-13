@@ -1,5 +1,15 @@
 [
   {
+    "id": "p_1783932756122",
+    "title": "Syndrome de l’imposteur",
+    "price": "25000",
+    "status": "available",
+    "dimensions": "40*40",
+    "technique": "",
+    "description": "Le visage qui doute même quand tout va bien. Les cercles dans l'eau, comme des vérités qu'on repousse à chaque fois qu'elles remontent.",
+    "image": "https://raw.githubusercontent.com/momokarakeh19-wq/artiva-studio/main/p_1783932756122.jpg?t=1783932757483"
+  },
+  {
     "id": "p_1783932581145",
     "title": "Syndrome du personnage principal",
     "price": "30000",
